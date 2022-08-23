@@ -7,7 +7,7 @@ import org.openqa.selenium.support.How;
 public class ForgotPasswordPage {
 
     //Кнопка войти
-    @FindBy(how = How.XPATH, using = "//div/div/p/a")
+    @FindBy(how = How.XPATH, using = "//*[@class='Auth_link__1fOlj']")
     private SelenideElement enterButton;
 
     public void clickEnterButton(){

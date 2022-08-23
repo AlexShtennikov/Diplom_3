@@ -6,12 +6,13 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.currentFrameUrl;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.junit.Assert.assertEquals;
 
 public class RegisterPageTest {
@@ -20,6 +21,7 @@ public class RegisterPageTest {
     private String password;
     private RegisterPage registerPage;
     private UserApiClient userClient;
+    private User user;
 
     @Before
     public void setUp() {
@@ -30,6 +32,8 @@ public class RegisterPageTest {
         name = faker.name().name();
         email = faker.internet().emailAddress();
         password = faker.internet().password(7, 10);
+
+        user = new User(email, password, name);
 
         Configuration.browserSize = "1920x1080";
         registerPage =
@@ -46,7 +50,7 @@ public class RegisterPageTest {
         registerPage.setPassword(password);
 
         registerPage.clickRegisterButton();
-        Thread.sleep(1000);
+        webdriver().shouldHave(currentFrameUrl("https://stellarburgers.nomoreparties.site/login"));
         String expected = "https://stellarburgers.nomoreparties.site/login";
         String actual = WebDriverRunner.getWebDriver().getCurrentUrl();
 
@@ -66,13 +70,12 @@ public class RegisterPageTest {
     //Вспомогательные методы
     public void endSession() {
 
-       User user = new User(email, password, name);
        String accessToken = userClient.loginUser(user)
                 .then()
-                .statusCode(200)
+                .statusCode(HTTP_OK)
                 .extract().body().path("accessToken");
 
-       String correctAccessToken = accessToken.replace("Bearer ", "");
+       String correctAccessToken = user.getCorrectAccessToken(accessToken);
        userClient.deleteUser(correctAccessToken);
     }
 

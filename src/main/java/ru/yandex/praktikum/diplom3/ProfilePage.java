@@ -7,7 +7,7 @@ import org.openqa.selenium.support.How;
 public class ProfilePage {
 
     //Кнопка выйти
-    @FindBy(how = How.XPATH, using = "//ul/li[3]/button")
+    @FindBy(how = How.XPATH, using = "//*[@class='Account_button__14Yp3 text text_type_main-medium text_color_inactive']")
     private SelenideElement exitButton;
 
     public void clickExitButton(){

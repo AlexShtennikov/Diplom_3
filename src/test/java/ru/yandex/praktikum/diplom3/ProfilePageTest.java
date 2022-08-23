@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.webdriver;
+import static com.codeborne.selenide.WebDriverConditions.currentFrameUrl;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.junit.Assert.assertEquals;
 
 public class ProfilePageTest {
@@ -20,6 +23,7 @@ public class ProfilePageTest {
     private String password;
     private LoginPage loginPage;
     private UserApiClient userClient;
+    private User user;
 
     @Before
     public void setUp() {
@@ -31,6 +35,8 @@ public class ProfilePageTest {
         email = faker.internet().emailAddress();
         password = faker.internet().password(7, 10);
 
+        user = new User(email, password, name);
+
         Configuration.browserSize = "1920x1080";
         loginPage =
                 open("https://stellarburgers.nomoreparties.site/login",
@@ -40,13 +46,12 @@ public class ProfilePageTest {
     @After
     public void endSession() {
 
-        User user = new User(email, password, name);
         accessToken = userClient.loginUser(user)
                 .then()
-                .statusCode(200)
+                .statusCode(HTTP_OK)
                 .extract().body().path("accessToken");
 
-        String correctAccessToken = accessToken.replace("Bearer ", "");
+        String correctAccessToken = user.getCorrectAccessToken(accessToken);
         userClient.deleteUser(correctAccessToken);
     }
 
@@ -55,10 +60,9 @@ public class ProfilePageTest {
     public void tryRegisterWithCorrectDateShouldReturnNewUser() throws InterruptedException{
 
         //Создадим пользователя
-        User user = new User(email, password, name);
         accessToken = userClient.createUser(user)
                 .then()
-                .statusCode(200)
+                .statusCode(HTTP_OK)
                 .extract().body().path("accessToken");
 
         //Авторизуемся под пользователем
@@ -66,7 +70,7 @@ public class ProfilePageTest {
         loginPage.setFieldPassword(password);
 
         loginPage.clickEnterButton();
-        Thread.sleep(1000);
+        webdriver().shouldHave(currentFrameUrl("https://stellarburgers.nomoreparties.site/"));
 
         //После авторизации попадаем на титульную страницу и переходим в ЛК
         TitlePage titlePage = open("https://stellarburgers.nomoreparties.site/",
@@ -78,7 +82,7 @@ public class ProfilePageTest {
                 ProfilePage.class);
 
         profilePage.clickExitButton();
-        Thread.sleep(1000);
+        webdriver().shouldHave(currentFrameUrl("https://stellarburgers.nomoreparties.site/login"));
         String expected = "https://stellarburgers.nomoreparties.site/login";
         String actual = WebDriverRunner.getWebDriver().getCurrentUrl();
 

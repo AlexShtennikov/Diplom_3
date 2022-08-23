@@ -7,44 +7,32 @@ import org.openqa.selenium.support.How;
 public class TitlePage {
 
     //Кнопка личный кабинет
-    @FindBy(how = How.XPATH, using = "//nav/a")
+    @FindBy(how = How.XPATH, using = "//*[contains(text(),'Личный Кабинет')]")
     private SelenideElement personalAccountButton;
 
     //Кнопка конструктор
-    @FindBy(how = How.XPATH, using = "//nav/ul/li[1]/a")
+    @FindBy(how = How.XPATH, using = "//*[contains(text(),'Конструктор')]")
     private SelenideElement designerButton;
 
     //Кнопка StellarBurgers
-    @FindBy(how = How.XPATH, using = "//nav/div")
+    @FindBy(how = How.XPATH, using = "//*[contains(@class,'AppHeader_header__logo__2D0X2')]")
     private SelenideElement stellarBurgersButton;
 
     //Кнопка войти в аккаунт
-    @FindBy(how = How.XPATH, using = "//section[2]/div/button")
+    @FindBy(how = How.XPATH, using = "//button[text()='Войти в аккаунт']")
     private SelenideElement enterAccountButton;
 
-    //Кнопка Булки)
-    @FindBy(how = How.XPATH, using = "//section[1]/div[1]")
+    //Кнопка Булки
+    @FindBy(how = How.XPATH, using = "//*[contains(@class, 'tab_tab__1SPyG') and descendant::*[text()='Булки']]//span")
     private SelenideElement bunButton;
 
-    //Меню Булки)
-    @FindBy(how = How.XPATH, using = "//section[1]/div[2]/h2[1]")
-    public SelenideElement bunMenu;
-
     //Кнопка Соусы
-    @FindBy(how = How.XPATH, using = "//section[1]/div[1]/div[2]")
+    @FindBy(how = How.XPATH, using = "//*[contains(@class, 'tab_tab__1SPyG') and descendant::*[text()='Соусы']]//span")
     private SelenideElement sauceButton;
 
-    //Меню Соусы
-    @FindBy(how = How.XPATH, using = "//section[1]/div[2]/h2[2]")
-    public SelenideElement sauceMenu;
-
     //Кнопка Начинки
-    @FindBy(how = How.XPATH, using = "//section[1]/div[1]/div[3]")
+    @FindBy(how = How.XPATH, using = "//*[contains(@class, 'tab_tab__1SPyG') and descendant::*[text()='Начинки']]//span")
     private SelenideElement fillingButton;
-
-    //Меню Начинки
-    @FindBy(how = How.XPATH, using = "//section[1]/div[2]/h2[3]")
-    public SelenideElement fillingMenu;
 
     public void clickFillingButton() {
         this.fillingButton.click();

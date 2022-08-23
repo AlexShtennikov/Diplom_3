@@ -1,12 +1,12 @@
 package ru.yandex.praktikum.diplom3;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.Assert.*;
 
@@ -63,21 +63,29 @@ public class TitlePageTest {
     @Test
     @DisplayName("Проверка перехода по кнопке 'Булки'")
     public void clickBunButtonShouldMakeCorrectTransition(){
+        //Сначала переходим на кнопку 'Соусы', чтобы кнопка 'Булки стала активна'
+        titlePage.clickSauceButton();
         titlePage.clickBunButton();
-        assertTrue(titlePage.bunMenu.isDisplayed());
+        String actual = $("[class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect").getText();
+        String expected = "Булки";
+        assertEquals(actual, expected);
     }
 
     @Test
     @DisplayName("Проверка перехода по кнопке 'Соусы'")
     public void clickSauceButtonShouldMakeCorrectTransition(){
         titlePage.clickSauceButton();
-        assertTrue(titlePage.sauceMenu.isDisplayed());
+        String actual = $("[class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect").getText();
+        String expected = "Соусы";
+        assertEquals(actual, expected);
     }
 
     @Test
     @DisplayName("Проверка перехода по кнопке 'Начинки'")
     public void clickFillingButtonShouldMakeCorrectTransition(){
         titlePage.clickFillingButton();
-        assertTrue(titlePage.fillingMenu.isDisplayed());
+        String actual = $("[class='tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect").getText();
+        String expected = "Начинки";
+        assertEquals(actual, expected);
     }
 }

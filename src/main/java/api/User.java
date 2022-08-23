@@ -38,6 +38,11 @@ public class User {
     public String getName() {
         return name;
     }
+
+    public String getCorrectAccessToken(String originToken){
+        String accessToken = originToken.replace("Bearer ", "");
+        return accessToken;
+    }
 }
 
 

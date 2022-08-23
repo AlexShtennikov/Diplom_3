@@ -1,9 +1,7 @@
 package ru.yandex.praktikum.diplom3;
 
-import api.UserApiClient;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;

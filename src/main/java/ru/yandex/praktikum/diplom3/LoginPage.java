@@ -7,15 +7,15 @@ import org.openqa.selenium.support.How;
 public class LoginPage {
 
     //Поле email
-    @FindBy(how = How.XPATH, using = "//fieldset[1]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//*[@class='input__container' and descendant::label[text()='Email']]//input")
     private SelenideElement fieldEmail;
 
     //Поле password
-    @FindBy(how = How.XPATH, using = "//fieldset[2]/div/div/input")
+    @FindBy(how = How.XPATH, using = "//input[@type='password']")
     private SelenideElement fieldPassword;
 
     //Кнопка войти
-    @FindBy(how = How.XPATH, using = "//form/button")
+    @FindBy(how = How.XPATH, using = "//*[@class='button_button__33qZ0 button_button_type_primary__1O7Bx button_button_size_medium__3zxIa']")
     private SelenideElement enterButton;
 
     public void clickEnterButton(){
